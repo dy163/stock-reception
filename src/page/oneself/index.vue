@@ -101,7 +101,7 @@ export default {
      * 展示详情
      */
     handleTranscation(q) {
-      this.$router.push({ path: "/transaction", query: { q: q } });
+      this.$router.push({ path: "/transaction", query: { q: JSON.stringify(q) } });
     },
     /**
      * 删除自选股
