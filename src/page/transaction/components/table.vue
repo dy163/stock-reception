@@ -112,18 +112,17 @@ export default {
   data() {
     return {
       list: [],         // 行情
-      showList: [],     // 行情列表
       show: true,
-      shows: false,
-      // freeList:[],      // 自选列表
-      // free: [],         // 自选
+      shows: false
     };
   },
   created() {
     this.handleGetShow();
   },
   methods: {
-    // 行情列表详情
+    /**
+     * 行情列表详情
+     */
     handleGetShow(q) {
       this.list = JSON.parse(this.$route.query.q)
     }

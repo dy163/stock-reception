@@ -6,18 +6,15 @@
       </div>
     </van-nav-bar>
     <div class="quotation-content">
-      <p>全部<span></span></p>
+      <p @click="handleSort">全部<span></span></p>
+      <!-- <p>全部</p> -->
       <p>
         价格
-        <!-- <div>
-          <p></p>
-          <p></p>
-        </div> -->
-        <img src="@/assets/img/sort.png" alt />
+        <!-- <img src="@/assets/img/sort.png" alt /> -->
       </p>
       <p>
         涨跌幅
-        <img src="@/assets/img/sort.png" alt />
+        <!-- <img src="@/assets/img/sort.png" alt /> -->
       </p>
     </div>
       <van-pull-refresh v-model="isLoading" @refresh="onRefresh">    
@@ -76,6 +73,17 @@ export default {
    * 方法
    */
   methods: {
+    // 排序********************
+    async handleSort () {
+      try {
+        const formData = new FormData()
+        formData.append("orderCondition", orderStatus)
+        const res = await getList(formData)
+        this.stock = res.data.result
+      } catch (error) {
+        this.$toast("排序操作失败")
+      }
+    },
     /**
      * 下拉刷新
      */
@@ -91,19 +99,9 @@ export default {
      */
     onLoad() {
       setTimeout(() => {
-        for (let i = 0; i < 5; i++) {
-          this.list.push(this.list.length + 1);
-        }
-        /**
-         * 加载状态结束
-         */
         this.loading = false;
-        /**
-         * 数据全部加载完成
-         */
-        if (this.list.length >= 5) {
-          this.finished = true;
-        }
+        this.finished = true;
+        
       }, 500);
     },
     /**
@@ -111,18 +109,17 @@ export default {
      */
     async loadStock() {
       try {
-        const formData = new FormData();
-        const res = await getList(formData);
-        this.stock = res.data.result;
+        const formData = new FormData()
+        const res = await getList(formData)
+        this.stock = res.data.result
       } catch (error) {
-        this.$toast("失败操作");
+        this.$toast("获取股票列表失败")
       }
     },
     /**
      * 列表点击展示详情
      */
     handleTranscation(q) {
-      
       this.$router.push({path: '/transaction',query: {q: JSON.stringify(q)}});
     }
   }
